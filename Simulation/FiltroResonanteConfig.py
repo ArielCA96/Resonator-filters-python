@@ -1,8 +1,9 @@
 import os
+import json
 
 class FiltroResonanteConfig:
     def __init__(self, a0=19.05, b0=9.525, l0=5, num_resonators=5, filter_width=30, filter_height=15, filter_length=8, 
-                 coupling_length=1, grid_width=0.3, num_holes=[5, 3], matrix=None, brick_height=2, brick_width=2, id=0):
+                 coupling_length=1, grid_width=0.3, num_holes=[3, 5], matrix=None, brick_height=2, brick_width=2, material='Vacuum', id=0):
         
         # Puertos
         self.a0 = a0    #mm
@@ -22,6 +23,10 @@ class FiltroResonanteConfig:
         self.matrix = matrix if matrix else [[1 for _ in range(self.num_holes[0])] for _ in range(self.num_holes[1])]
         self.brick_height = brick_height        #mm
         self.brick_width = brick_width          #mm
+        self.material = material        # "FR-4 (lossy)" o "PEC"
+
+        self.coupling_height = num_holes[0] * (brick_height + grid_width) + grid_width
+        self.coupling_width = num_holes[1] * (brick_width + grid_width) + grid_width
 
         # Port 1
         self.xrange_p1 =[0,0]
@@ -35,8 +40,33 @@ class FiltroResonanteConfig:
         self.zrange_p2 = [a0/2, -a0/2]
 
         self.id = id
+        
 
-
+    def save_config(self, path, filename):
+        config_data = {
+            'a0': self.a0,
+            'b0': self.b0,
+            'l0': self.l0,
+            'num_resonators': self.num_resonators,
+            'filter_width': self.filter_width,
+            'filter_height': self.filter_height,
+            'filter_length': self.filter_length,
+            'grid_width': self.grid_width,
+            'num_holes': self.num_holes,
+            'matrix': self.matrix,
+            'brick_height': self.brick_height,
+            'brick_width': self.brick_width,
+            'coupling_length': self.coupling_length,
+            'coupling_height': self.coupling_height,
+            'coupling_width': self.coupling_width,
+            'material': self.material,
+            'id': self.id
+        }
+        
+        file_path = os.path.join(path, f"{filename}.json")
+        with open(file_path, 'w') as file:
+            json.dump(config_data, file, indent=4)
+                
 
     def get_simulation_results_path(self):
         base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

@@ -1,0 +1,63 @@
+{
+    "a0": 19.05,
+    "b0": 9.525,
+    "l0": 5,
+    "num_resonators": 1,
+    "filter_width": 20.0,
+    "filter_height": 9.525,
+    "filter_length": 15,
+    "grid_width": 0.1,
+    "num_holes": [
+        4,
+        8
+    ],
+    "matrix": [
+        [
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0
+        ]
+    ],
+    "brick_height": 2,
+    "brick_width": 2,
+    "coupling_length": 1,
+    "coupling_height": 8.5,
+    "coupling_width": 16.900000000000002,
+    "material": "PEC",
+    "id": 0
+}

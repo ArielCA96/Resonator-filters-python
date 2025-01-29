@@ -19,14 +19,13 @@ def CrearFiltroResonante(mws, Config: FiltroResonanteConfig):
     coupling_length = Config.coupling_length  # mm
     grid_width = Config.grid_width  # mm
     num_holes = Config.num_holes  # [ancho, alto]
-    matriz = Config.matrix
-    matriz = matriz[::-1]
+    
 
     brick_height = Config.brick_height  # mm
     brick_width = Config.brick_width  # mm
 
-    coupling_height = num_holes[1] * (brick_height + grid_width) + grid_width
-    coupling_width = num_holes[0] * (brick_width + grid_width) + grid_width
+    coupling_height = Config.coupling_height
+    coupling_width = Config.coupling_width
 
     # Crear puerto 1    
     Name = 'puerto 1'
@@ -62,14 +61,31 @@ def CrearFiltroResonante(mws, Config: FiltroResonanteConfig):
     point = [-coupling_width/2 + grid_width, -coupling_height/2 + grid_width]
     for i in range(num_resonators + 1):
         coupling_start = l0 + i * (filter_length + coupling_length)
+        
+        matriz = Config.matrix[i]
+        matriz = matriz[::-1]
+
+        # Rejilla de acopladores dieléctricos
+        Name = 'Coupling ' + str(i)
+        component = 'Coupling'
+        material = Config.material
+        Xrange = [coupling_start, coupling_start + coupling_length]
+        Yrange = [-coupling_height/2, coupling_height/2]
+        Zrange = [-coupling_width/2, coupling_width/2]
+        Cstbrick(mws, Name, component, material, Xrange, Yrange, Zrange)
+
         for j in range(num_holes[0]):
             for k in range(num_holes[1]):
-                if matriz[k][j] == 1:  # Note: matriz[k][j] instead of matriz[j][k] to match the dimensions
-                    
-                    Name = f'acoplador {i}_{j}_{k}'
-                    component = 'Coupling'
+                if matriz[j][k] == 1:
                     material = 'Vacuum'
-                    Xrange = [coupling_start, coupling_start + coupling_length]
-                    Yrange = [point[1] + brick_height*(k+1) + grid_width*k, point[1] + brick_height*k + grid_width*k ]
-                    Zrange = [point[0] + brick_width*(j+1) + grid_width*j, point[0] + brick_width*j + grid_width*j ]
-                    Cstbrick(mws, Name, component, material, Xrange, Yrange, Zrange)
+                else:
+                    material = "PEC"
+                    
+                Name = f'acoplador {i}_{j}_{k}'
+                component = 'Coupling'
+                #material = 'Vacuum'
+                Xrange = [coupling_start, coupling_start + coupling_length]
+                Yrange = [point[1] + brick_height*(j+1) + grid_width*j, point[1] + brick_height*j + grid_width*j ]
+                Zrange = [point[0] + brick_width*(k+1) + grid_width*k, point[0] + brick_width*k + grid_width*k ]
+                Cstbrick(mws, Name, component, material, Xrange, Yrange, Zrange)
+                mws.Solid.Insert( 'Coupling:'+'Coupling ' + str(i), "Coupling:" + f"acoplador {i}_{j}_{k}")

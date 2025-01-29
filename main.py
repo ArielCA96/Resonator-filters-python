@@ -11,26 +11,57 @@ from Simulation.FiltroResonanteConfig import FiltroResonanteConfig
 from Estructuras.CstDefineElectricBoundary import CstDefineElectricBoundary
 from Geometria.CrearFiltroResonante import CrearFiltroResonante
 from Geometria.FilterPorts import FilterPorts
+from Material.cstFR4Lossy import cstFR4Lossy
 
+
+matrix1 = [
+    [0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 0]
+]
+
+matrix2 = [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1]
+]
+
+
+matrix = [matrix1, matrix2, matrix1]
+num_holes = [len(matrix[0]), len(matrix[0][0])]
+num_resonators = len(matrix)-1
+
+a0=19.05
+b0=9.525
+grid_width=0.5
+brick_height = (b0 - (num_holes[0]+1)*grid_width)/num_holes[0]
+brick_width = (a0 - (num_holes[1]+1)*grid_width)/num_holes[1]
 
 Config = FiltroResonanteConfig(
-            a0=19.05, 
-            b0=9.525, 
+            a0=a0, 
+            b0=b0, 
             l0=5, 
-            num_resonators=0, 
-            filter_width=19.05, 
+            num_resonators=num_resonators, 
+            filter_width=20.0, 
             filter_height=9.525, 
-            filter_length=8, 
-            coupling_length=0.1, 
-            grid_width=0.1, 
-            num_holes=[4, 1], 
-            matrix = None,
-            brick_height=4, 
-            brick_width=4,
+            filter_length=15, 
+            coupling_length=0.5, 
+            grid_width=grid_width, 
+            num_holes=num_holes, 
+            matrix = matrix,
+            brick_height=brick_height, 
+            brick_width=brick_width,
+            material='PEC', # "FR-4 (lossy)" o "PEC"
         )
 
 cst = win32com.client.Dispatch('CSTStudio.Application')
 mws = cst.NewMWS()
+
+cstFR4Lossy(mws)
 
 Geometry = 'mm'
 Frequency = 'GHz'
@@ -48,6 +79,7 @@ CstDefineUnits(mws, Geometry, Frequency, Time, TemperatureUnit, Voltage, Current
 
 startFreq = '10.95'
 endFreq = '14.5'
+endFreq = '25.0'
 CstDefineFrequencyRange(mws, startFreq, endFreq)
 
 samples = '1'

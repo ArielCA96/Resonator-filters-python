@@ -1,0 +1,87 @@
+{
+    "a0": 19.05,
+    "b0": 9.525,
+    "l0": 5,
+    "num_resonators": 3,
+    "filter_width": 20.0,
+    "filter_height": 9.525,
+    "filter_length": 15,
+    "coupling_length": 1,
+    "grid_width": 0.1,
+    "num_holes": [
+        8,
+        4
+    ],
+    "matrix": [
+        [
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0
+        ]
+    ],
+    "brick_height": 2,
+    "brick_width": 2,
+    "coupling_height": 8.5,
+    "coupling_width": 16.900000000000002,
+    "material": "PEC",
+    "xrange_p1": [
+        0,
+        0
+    ],
+    "yrange_p1": [
+        4.7625,
+        -4.7625
+    ],
+    "zrange_p1": [
+        9.525,
+        -9.525
+    ],
+    "xrange_p2": [
+        59,
+        59
+    ],
+    "yrange_p2": [
+        4.7625,
+        -4.7625
+    ],
+    "zrange_p2": [
+        9.525,
+        -9.525
+    ],
+    "id": 0
+}
