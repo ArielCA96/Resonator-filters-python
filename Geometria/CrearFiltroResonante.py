@@ -65,7 +65,7 @@ def CrearFiltroResonante(mws, Config: FiltroResonanteConfig):
         matriz = Config.matrix[i]
         matriz = matriz[::-1]
 
-        # Rejilla de acopladores dieléctricos
+        # Rejilla de acopladores 
         Name = 'Coupling ' + str(i)
         component = 'Coupling'
         material = Config.material
@@ -83,7 +83,6 @@ def CrearFiltroResonante(mws, Config: FiltroResonanteConfig):
                     
                 Name = f'acoplador {i}_{j}_{k}'
                 component = 'Coupling'
-                #material = 'Vacuum'
                 Xrange = [coupling_start, coupling_start + coupling_length]
                 Yrange = [point[1] + brick_height*(j+1) + grid_width*j, point[1] + brick_height*j + grid_width*j ]
                 Zrange = [point[0] + brick_width*(k+1) + grid_width*k, point[0] + brick_width*k + grid_width*k ]
