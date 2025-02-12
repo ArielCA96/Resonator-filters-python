@@ -1,5 +1,6 @@
 import os
 import json
+import numpy as np
 
 class FiltroResonanteConfig:
     def __init__(self, a0=19.05, b0=9.525, l0=5, num_resonators=5, filter_width=30, filter_height=15, filter_length=8, 
@@ -37,12 +38,17 @@ class FiltroResonanteConfig:
         self.zrange_p1 = [a0/2, -a0/2]
 
         # Port 2 
-        end_filter = l0*2 + num_resonators*filter_length + (num_resonators+1)*coupling_length
+        end_filter = l0*2 + np.sum(filter_length) + (num_resonators+1)*coupling_length
         self.xrange_p2 =[end_filter, end_filter]
         self.yrange_p2 = [b0/2, -b0/2]
         self.zrange_p2 = [a0/2, -a0/2]
 
         self.id = id
+    
+    def set_filter_length(self, filter_length):
+        self.filter_length = filter_length
+        end_filter = self.l0*2 + np.sum(filter_length) + (self.num_resonators+1)*self.coupling_length
+        self.xrange_p2 =[end_filter, end_filter]
         
 
     def save_config(self, path, filename):

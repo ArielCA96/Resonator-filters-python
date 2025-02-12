@@ -44,10 +44,16 @@ def ExportarAcople(mws, Config: FiltroResonanteConfig):
     coupling = (f1 **2 - f2**2)/(f1**2 + f2**2)
     coupling = abs(coupling)
 
-    Config.save_config_iris_filter(results_path, filename, s21_dB, s11_dB, FrequencyRange[zero_derivative_indices], coupling)
+    f0 = (f1 * f2) ** 0.5
+    coupling2 = abs(f1 - f2) / (f1 * f2) ** 0.5
+
+    #Config.save_config_iris_filter(results_path, filename, s21_dB, s11_dB, FrequencyRange[zero_derivative_indices], coupling)
+    print(FrequencyRange[zero_derivative_indices], s21_dB[zero_derivative_indices])
+    print(coupling)
+    print(coupling2, f0)
 
     # Plot the curve S21
-    """plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(10, 6))
     plt.plot(FrequencyRange, s21_dB, label='S21 (dB)')
     plt.scatter(FrequencyRange[zero_derivative_indices], s21_dB[zero_derivative_indices], color='red', zorder=5, label='Zero Derivative Points')
     plt.xlabel('Frequency (Hz)')
@@ -55,6 +61,6 @@ def ExportarAcople(mws, Config: FiltroResonanteConfig):
     plt.title('S21 vs Frequency')
     plt.legend()
     plt.grid(True)
-    plt.show()"""
+    plt.show()
 
-    return coupling
+    return coupling, f0
